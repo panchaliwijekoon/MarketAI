@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Market Finder | MarketAI</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+
+<body>
+
+<nav>
+    <h2>MarketAI</h2>
+
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="market_finder.html">Market Finder</a>
+    </div>
+</nav>
+
+<section class="form-page">
+
+    <div class="form-box">
+
+        <p class="tag">MARKET ANALYSIS</p>
+        <h1>Find Suitable International Markets</h1>
+
+        <p class="form-intro">
+            Provide basic information about your business.
+            These attributes will later be processed by the
+            machine-learning recommendation model.
+        </p>
+
+        <form action="results.html">
+
+            <label>Business Industry</label>
+            <select required>
+                <option value="">Select industry</option>
+                <option>Apparel</option>
+                <option>Tea</option>
+                <option>Furniture</option>
+                <option>Agriculture</option>
+                <option>Food Products</option>
+                <option>Gems and Jewellery</option>
+                <option>IT Services</option>
+            </select>
+
+            <label>Product / Service</label>
+            <input type="text"
+                   placeholder="Example: Hotel furniture"
+                   required>
+
+            <label>Business Size</label>
+            <select required>
+                <option value="">Select business size</option>
+                <option>Micro</option>
+                <option>Small</option>
+                <option>Medium</option>
+            </select>
+
+            <label>Export Experience</label>
+            <select required>
+                <option value="">Select experience</option>
+                <option>No export experience</option>
+                <option>Less than 2 years</option>
+                <option>2 - 5 years</option>
+                <option>More than 5 years</option>
+            </select>
+
+            <label>Preferred Region</label>
+            <select required>
+                <option value="">Any region</option>
+                <option>South Asia</option>
+                <option>Southeast Asia</option>
+                <option>Middle East</option>
+                <option>Europe</option>
+            </select>
+
+            <button type="submit" class="form-button">
+                Analyse Markets
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+</body>
+</html>

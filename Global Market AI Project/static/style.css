@@ -1,0 +1,265 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f5f7fa;
+    color: #1e293b;
+}
+
+nav {
+    height: 75px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8%;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+nav h2 {
+    color: #123b5d;
+    font-size: 25px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 35px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #475569;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: #0f766e;
+}
+
+.hero {
+    min-height: calc(100vh - 75px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #f8fafc, #e8f4f1);
+}
+
+.tag {
+    color: #0f766e;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    max-width: 900px;
+    font-size: 58px;
+    line-height: 1.1;
+    color: #123b5d;
+    margin-bottom: 25px;
+}
+
+.description {
+    max-width: 700px;
+    font-size: 18px;
+    line-height: 1.7;
+    color: #64748b;
+    margin-bottom: 35px;
+}
+
+.main-button {
+    display: inline-block;
+    background: #0f766e;
+    color: white;
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.main-button:hover {
+    transform: translateY(-2px);
+    background: #115e59;
+}
+
+.page-container {
+    width: 84%;
+    max-width: 1200px;
+    margin: 60px auto;
+}
+
+.page-heading {
+    margin-bottom: 40px;
+}
+
+.page-heading h1 {
+    font-size: 40px;
+    color: #123b5d;
+    margin-bottom: 12px;
+}
+
+.page-heading p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 35px;
+}
+
+.card {
+    background: white;
+    padding: 28px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.card h3 {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+
+.big-text {
+    font-size: 26px;
+    font-weight: bold;
+    color: #123b5d;
+    margin-bottom: 8px;
+}
+
+.card span {
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.panel {
+    background: white;
+    padding: 35px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.panel h2 {
+    color: #123b5d;
+    margin-bottom: 12px;
+}
+
+.panel p {
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+.form-page {
+    min-height: calc(100vh - 75px);
+    background: #f5f7fa;
+    padding: 60px 20px;
+}
+
+.form-box {
+    max-width: 650px;
+    margin: auto;
+    background: white;
+    padding: 45px;
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+}
+
+.form-box h1 {
+    color: #123b5d;
+    margin-bottom: 15px;
+}
+
+.form-intro {
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #334155;
+}
+
+input,
+select {
+    padding: 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    font-size: 15px;
+}
+
+.form-button {
+    margin-top: 30px;
+    padding: 14px;
+    border: none;
+    border-radius: 7px;
+    background: #0f766e;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.recommendation-list {
+    margin-bottom: 35px;
+}
+
+.recommendation {
+    background: white;
+    border: 1px solid #e2e8f0;
+    padding: 25px 30px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rank {
+    color: #0f766e;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.recommendation h2 {
+    margin: 6px 0;
+    color: #123b5d;
+}
+
+.recommendation p {
+    color: #64748b;
+}
+
+.status {
+    background: #ecfdf5;
+    color: #0f766e;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+@media (max-width: 850px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
