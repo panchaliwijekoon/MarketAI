@@ -1,0 +1,11 @@
+country_code,country,year,partner,product,mfn_rate,applied_tariff,tariff_lines,is_traded,source_file
+AUS,Australia,2022,Sri Lanka,"940360 - Furniture; wooden, other than for office, kitchen or bedroom use",5.0,5.0,1,Yes,Australia_SriLanka_940360_2022.xlsx
+CAN,Canada,2022,Sri Lanka,"940360 - Furniture; wooden, other than for office, kitchen or bedroom use",4.75,3.0,2,Yes,Canada_SriLanka_940360_2022.xlsx
+EU,European Union,2022,Sri Lanka,"940360 - Furniture; wooden, other than for office, kitchen or bedroom use",0.0,0.0,3,Yes,EU_SriLanka_940360_2022.xlsx
+IND,India,2022,Sri Lanka,"940360 - Furniture; wooden, other than for office, kitchen or bedroom use",25.0,23.75,1,Yes,India_SriLanka_940360_2022.xlsx
+JPN,Japan,2022,Sri Lanka,"940360 - Furniture; wooden, other than for office, kitchen or bedroom use",0.0,0.0,3,No,Japan_SriLanka_940360_2022.xlsx
+MDV,Maldives,2022,Sri Lanka,"940360 - Furniture; wooden, other than for office, kitchen or bedroom use",5.0,2.0,1,Yes,Maldives_SriLanka_940360_2022.xlsx
+SGP,Singapore,2022,Sri Lanka,"940360 - Furniture; wooden, other than for office, kitchen or bedroom use",0.0,0.0,2,Yes,Singapore_SriLanka_940360_2022.xlsx
+ARE,United Arab Emirates,2022,Sri Lanka,"940360 - Furniture; wooden, other than for office, kitchen or bedroom use",5.0,5.0,5,Yes,UAE_SriLanka940360_2022.xlsx
+GBR,United Kingdom,2022,Sri Lanka,"940360 - Furniture; wooden, other than for office, kitchen or bedroom use",0.0,0.0,3,Yes,UK_SriLanka_940360_2022.xlsx
+USA,United States,2022,Sri Lanka,"940360 - Furniture; wooden, other than for office, kitchen or bedroom use",0.0,0.0,2,Yes,USA_SriLanka_940360_2022.xlsx

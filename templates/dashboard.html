@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | MarketAI</title>
+
+    <link rel="stylesheet"
+          href="/static/style.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================
+     NAVIGATION
+===================================== -->
+
+<nav class="navbar">
+
+    <div class="logo">Market<span>AI</span></div>
+
+
+    <div class="nav-links">
+
+        <a href="/">Home</a>
+
+        <a href="/dashboard"
+           class="active">
+            Dashboard
+        </a>
+
+        <a href="/market-finder">
+            Market Finder
+        </a>
+
+        <a href="/compare">
+            Compare </a>
+        
+        <a href="/methodology">
+            Methodology
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================
+     DASHBOARD HEADER
+===================================== -->
+
+<section class="dashboard-header">
+
+    <p class="eyebrow">MARKET INTELLIGENCE DASHBOARD</p>
+
+    <h1>Furniture Export Market Overview</h1>
+
+    <p>
+        AI-generated 2026 demand forecasts combined
+        with economic, logistics, political and tariff indicators.
+    </p>
+
+</section>
+
+<div class="data-status">
+    <span class="status-dot"></span>
+    Prototype analytics using AI forecasts and verified market indicators
+</div>
+
+
+<!-- =====================================
+     SUMMARY CARDS
+===================================== -->
+
+<section class="summary-grid">
+
+    <div class="summary-card">
+
+        <span>Markets Analysed</span>
+
+        <strong id="marketCount">
+            -
+        </strong>
+
+        <small>Final WSM dataset</small>
+
+    </div>
+
+
+
+    <div class="summary-card">
+
+        <span> Highest Predicted Demand</span>
+
+        <strong id="topMarket">
+            -
+        </strong>
+
+        <small id="topDemand">
+            -
+        </small>
+
+    </div>
+
+
+
+    <div class="summary-card">
+
+        <span>Average Tariff</span>
+
+        <strong id="averageTariff">
+            -
+        </strong>
+
+        <small>Applied tariff</small>
+
+    </div>
+
+
+
+    <div class="summary-card">
+
+        <span>Average Logistics Score</span>
+
+        <strong id="averageLPI">
+            -
+        </strong>
+
+        <small> World Bank LPI / 5</small>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================
+     CHART 1
+===================================== -->
+
+<section class="dashboard-grid">
+
+
+    <div class="chart-card chart-large">
+
+        <div class="chart-heading">
+
+            <div>
+
+                <span class="chart-label">AI FORECAST</span>
+
+                <h2>Predicted 2026 Market Demand</h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="chart-wrapper">
+
+            <canvas id="demandChart"></canvas>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================
+         CHART 2
+    ===================================== -->
+
+    <div class="chart-card">
+
+        <div class="chart-heading">
+
+            <div>
+
+                <span class="chart-label">AI FORECAST</span>
+
+                <h2>Predicted Market Growth</h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="chart-wrapper">
+
+            <canvas id="growthChart"></canvas>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================
+         CHART 3
+    ===================================== -->
+
+    <div class="chart-card">
+
+        <div class="chart-heading">
+
+            <div>
+
+                <span class="chart-label">MARKET ACCESS</span>
+
+                <h2>Tariff vs Political Stability</h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="chart-wrapper">
+
+            <canvas id="riskTariffChart"></canvas>
+
+        </div>
+
+    </div>
+
+</section>
+
+<div class="chart-card chart-large">
+
+    <div class="chart-heading">
+
+        <div>
+
+            <span class="chart-label">MODEL EVALUATION</span>
+
+            <h2>Actual vs AI-Predicted 2025 Demand</h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="chart-wrapper">
+
+        <canvas id="evaluationChart"></canvas>
+
+    </div>
+
+</div>
+
+<!-- =====================================
+     MARKET COMPARISON TABLE
+===================================== -->
+
+<section class="dashboard-table-section">
+
+    <div class="table-heading">
+
+        <div>
+
+            <p class="eyebrow"> MARKET COMPARISON</p>
+
+            <h2>Indicator Overview</h2>
+
+        </div>
+
+
+        <a href="/market-finder"
+           class="small-action-button">
+
+            Generate Recommendation →
+
+        </a>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table class="market-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Market</th>
+
+                    <th>AI Demand 2026</th>
+
+                    <th>Growth</th>
+
+                    <th>GDP / Capita</th>
+
+                    <th>Logistics</th>
+
+                    <th>Stability</th>
+
+                    <th>Tariff</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for market in markets %}
+
+                <tr>
+
+                    <td>
+
+                        <strong>{{ market.country }}</strong>
+
+                        <small>{{ market.country_code }}</small>
+
+                    </td>
+
+
+                    <td>
+
+                        ${{ "%.2f"|format(
+                            market.predicted_demand_2026
+                            / 1000000000
+                        ) }}B
+
+                    </td>
+
+
+                    <td>
+
+                        {{ "%.2f"|format(
+                            market.predicted_growth_2026
+                        ) }}%
+
+                    </td>
+
+
+                    <td>
+
+                        ${{ "{:,.0f}".format(
+                            market.gdp_per_capita
+                        ) }}
+
+                    </td>
+
+
+                    <td>
+
+                        {{ "%.1f"|format(
+                            market.logistics_lpi
+                        ) }}
+                        / 5
+
+                    </td>
+
+
+                    <td>
+
+                        {{ "%.1f"|format(
+                            market.political_stability
+                        ) }}
+
+                    </td>
+
+
+                    <td>
+
+                        {{ "%.2f"|format(
+                            market.applied_tariff
+                        ) }}%
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================
+     DATA NOTICE
+===================================== -->
+
+<div class="dashboard-note">
+
+    <strong>
+        Prototype data notice:
+    </strong>
+
+    2026 demand and growth values are
+    machine-learning forecasts based on historical
+    UN Comtrade furniture import observations.
+
+    GDP, logistics and political indicators use
+    the latest available World Bank observations,
+    while tariff values are product-specific records
+    for HS 940360.
+
+</div>
+
+
+
+<!-- =====================================
+     CHART DATA + JAVASCRIPT
+===================================== -->
+<!-- =====================================
+     DATA FROM FASTAPI
+===================================== -->
+
+<script id="market-data" type="application/json">
+    {{ markets | default([]) | tojson }}
+</script>
+
+<script id="evaluation-data" type="application/json">
+    {{ evaluation | default([]) | tojson }}
+</script>
+
+<script id="ranking-data" type="application/json">
+    {{ ranked | default([]) | tojson }}
+</script>
+
+
+<!-- =====================================
+     DASHBOARD JAVASCRIPT
+===================================== -->
+
+<script>
+
+    // ------------------------------------
+    // READ DATA SENT BY FASTAPI
+    // ------------------------------------
+
+    const marketData = JSON.parse(
+        document.getElementById(
+            "market-data"
+        ).textContent
+    );
+
+    const evaluationData = JSON.parse(
+        document.getElementById(
+            "evaluation-data"
+        ).textContent
+    );
+
+    const rankingData = JSON.parse(
+        document.getElementById(
+            "ranking-data"
+        ).textContent
+    );
+
+
+    console.log(
+        "Market data:",
+        marketData
+    );
+
+    console.log(
+        "Evaluation data:",
+        evaluationData
+    );
+
+
+    // ====================================
+    // SUMMARY CARDS
+    // ====================================
+
+    if (marketData.length > 0) {
+
+        // Markets analysed
+        document.getElementById(
+            "marketCount"
+        ).textContent =
+            marketData.length;
+
+
+        // Highest predicted demand
+        const highestDemandMarket = [
+            ...marketData
+        ].sort(
+            (a, b) =>
+                Number(
+                    b.predicted_demand_2026
+                )
+                -
+                Number(
+                    a.predicted_demand_2026
+                )
+        )[0];
+
+
+        document.getElementById(
+            "topMarket"
+        ).textContent =
+            highestDemandMarket.country;
+
+
+        document.getElementById(
+            "topDemand"
+        ).textContent =
+            "$"
+            +
+            (
+                Number(
+                    highestDemandMarket
+                    .predicted_demand_2026
+                )
+                /
+                1000000000
+            ).toFixed(2)
+            +
+            "B";
+
+
+        // Average tariff
+        const tariffAverage =
+            marketData.reduce(
+                (total, market) =>
+                    total
+                    +
+                    Number(
+                        market.applied_tariff
+                    ),
+                0
+            )
+            /
+            marketData.length;
+
+
+        document.getElementById(
+            "averageTariff"
+        ).textContent =
+            tariffAverage.toFixed(2)
+            +
+            "%";
+
+
+        // Average logistics
+        const lpiAverage =
+            marketData.reduce(
+                (total, market) =>
+                    total
+                    +
+                    Number(
+                        market.logistics_lpi
+                    ),
+                0
+            )
+            /
+            marketData.length;
+
+
+        document.getElementById(
+            "averageLPI"
+        ).textContent =
+            lpiAverage.toFixed(2);
+    }
+
+
+    // ====================================
+    // ONLY CREATE CHARTS IF CHART.JS LOADED
+    // ====================================
+
+    if (
+        typeof Chart !== "undefined"
+        &&
+        marketData.length > 0
+    ) {
+
+
+        // ====================================
+        // CHART 1 — AI DEMAND
+        // ====================================
+
+        const countryNames =
+            marketData.map(
+                market =>
+                    market.country
+            );
+
+
+        const demandValues =
+            marketData.map(
+                market =>
+                    Number(
+                        market.predicted_demand_2026
+                    )
+                    /
+                    1000000000
+            );
+
+
+        new Chart(
+            document.getElementById(
+                "demandChart"
+            ),
+            {
+                type: "bar",
+
+                data: {
+                    labels: countryNames,
+
+                    datasets: [
+                        {
+                            label:
+                                "Predicted 2026 Demand",
+
+                            data:
+                                demandValues,
+
+                            backgroundColor:
+                                "#0c9b85",
+
+                            borderRadius:
+                                6
+                        }
+                    ]
+                },
+
+                options: {
+                    responsive: true,
+
+                    maintainAspectRatio:
+                        false,
+
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+
+                            title: {
+                                display: true,
+
+                                text:
+                                    "US$ Billions"
+                            }
+                        }
+                    }
+                }
+            }
+        );
+
+
+        // ====================================
+        // CHART 2 — AI GROWTH
+        // ====================================
+
+        const growthValues =
+            marketData.map(
+                market =>
+                    Number(
+                        market.predicted_growth_2026
+                    )
+            );
+
+
+        new Chart(
+            document.getElementById(
+                "growthChart"
+            ),
+            {
+                type: "bar",
+
+                data: {
+                    labels:
+                        countryNames,
+
+                    datasets: [
+                        {
+                            label:
+                                "Predicted Growth (%)",
+
+                            data:
+                                growthValues,
+
+                            backgroundColor:
+                                "#153b50",
+
+                            borderRadius:
+                                5
+                        }
+                    ]
+                },
+
+                options: {
+                    responsive: true,
+
+                    maintainAspectRatio:
+                        false,
+
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+
+                                text:
+                                    "Growth %"
+                            }
+                        }
+                    }
+                }
+            }
+        );
+
+
+        // ====================================
+        // CHART 3 — TARIFF VS STABILITY
+        // ====================================
+
+        const scatterData =
+            marketData.map(
+                market => ({
+                    x:
+                        Number(
+                            market.applied_tariff
+                        ),
+
+                    y:
+                        Number(
+                            market.political_stability
+                        ),
+
+                    country:
+                        market.country
+                })
+            );
+
+
+        new Chart(
+            document.getElementById(
+                "riskTariffChart"
+            ),
+            {
+                type: "scatter",
+
+                data: {
+                    datasets: [
+                        {
+                            label:
+                                "Markets",
+
+                            data:
+                                scatterData,
+
+                            backgroundColor:
+                                "#0c9b85",
+
+                            pointRadius:
+                                7,
+
+                            pointHoverRadius:
+                                9
+                        }
+                    ]
+                },
+
+                options: {
+                    responsive: true,
+
+                    maintainAspectRatio:
+                        false,
+
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+
+                                text:
+                                    "Applied Tariff (%)"
+                            }
+                        },
+
+                        y: {
+                            title: {
+                                display: true,
+
+                                text:
+                                    "Political Stability"
+                            }
+                        }
+                    },
+
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label:
+                                    function(context) {
+
+                                        const point =
+                                            context.raw;
+
+                                        return (
+                                            point.country
+                                            +
+                                            ": Tariff "
+                                            +
+                                            point.x
+                                            +
+                                            "%, Stability "
+                                            +
+                                            point.y.toFixed(1)
+                                        );
+                                    }
+                            }
+                        }
+                    }
+                }
+            }
+        );
+
+
+        // ====================================
+        // CHART 4 — MODEL EVALUATION
+        // ====================================
+
+        if (evaluationData.length > 0) {
+
+            const evaluationCountries =
+                evaluationData.map(
+                    item =>
+                        item.reporterDesc
+                );
+
+
+            const actualValues =
+                evaluationData.map(
+                    item =>
+                        Number(
+                            item.actual_2025_value
+                        )
+                        /
+                        1000000000
+                );
+
+
+            const predictedValues =
+                evaluationData.map(
+                    item =>
+                        Number(
+                            item.predicted_2025_value
+                        )
+                        /
+                        1000000000
+                );
+
+
+            new Chart(
+                document.getElementById(
+                    "evaluationChart"
+                ),
+                {
+                    type: "bar",
+
+                    data: {
+                        labels:
+                            evaluationCountries,
+
+                        datasets: [
+                            {
+                                label:
+                                    "Actual 2025",
+
+                                data:
+                                    actualValues
+                            },
+
+                            {
+                                label:
+                                    "AI Predicted 2025",
+
+                                data:
+                                    predictedValues
+                            }
+                        ]
+                    },
+
+                    options: {
+                        responsive: true,
+
+                        maintainAspectRatio:
+                            false,
+
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+
+                                title: {
+                                    display: true,
+
+                                    text:
+                                        "Import Demand (US$ Billions)"
+                                }
+                            }
+                        }
+                    }
+                }
+            );
+        }
+
+    }
+    else {
+
+        console.error(
+            "Chart.js did not load or market data is empty."
+        );
+
+    }
+
+</script>
+</body>
+
+</html>

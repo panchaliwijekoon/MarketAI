@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Methodology | MarketAI</title>
+
+    <link rel="stylesheet"
+          href="/static/style.css">
+</head>
+
+
+<body>
+
+
+<!-- NAVIGATION -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        Market<span>AI</span>
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/market-finder">
+            Market Finder
+        </a>
+
+        <a href="/compare">
+            Compare
+        </a>
+
+        <a href="/profile">
+            Business Profile
+        </a>
+
+        <a href="/methodology"
+           class="active">
+            Methodology
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- HEADER -->
+
+<section class="method-header">
+
+    <p class="eyebrow">
+        SYSTEM METHODOLOGY
+    </p>
+
+    <h1>
+        How MarketAI Generates Recommendations
+    </h1>
+
+    <p>
+        MarketAI combines historical international trade data,
+        machine-learning forecasting and a Weighted Sum Model
+        to support export-market selection for Sri Lankan SMEs.
+    </p>
+
+</section>
+
+
+
+<!-- OVERVIEW -->
+
+<section class="method-container">
+
+    <div class="method-flow">
+
+        <div class="method-step">
+            <span>01</span>
+            <h3>Historical Data</h3>
+            <p>
+                UN Comtrade furniture import observations
+                for HS 940360 from 2021–2025 are collected
+                and prepared.
+            </p>
+        </div>
+
+        <div class="flow-arrow-horizontal">
+            →
+        </div>
+
+        <div class="method-step">
+            <span>02</span>
+            <h3>AI Forecasting</h3>
+            <p>
+                Linear Regression learns historical
+                relationships and forecasts future market demand.
+            </p>
+        </div>
+
+        <div class="flow-arrow-horizontal">
+            →
+        </div>
+
+        <div class="method-step">
+            <span>03</span>
+            <h3>Market Indicators</h3>
+            <p>
+                GDP, logistics, political stability and
+                tariff information are added.
+            </p>
+        </div>
+
+        <div class="flow-arrow-horizontal">
+            →
+        </div>
+
+        <div class="method-step">
+            <span>04</span>
+            <h3>WSM Ranking</h3>
+            <p>
+                All indicators are normalized, weighted
+                and combined into a market suitability score.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- DATA SOURCES -->
+
+<section class="method-section light-section">
+
+    <div class="method-section-heading">
+        <p class="eyebrow">
+            DATA SOURCES
+        </p>
+
+        <h2>
+            Market Intelligence Inputs
+        </h2>
+    </div>
+
+
+    <div class="source-grid">
+
+        <div class="source-card">
+
+            <h3>
+                UN Comtrade
+            </h3>
+
+            <p>
+                Historical import-demand data for
+                wooden furniture under HS code 940360.
+            </p>
+
+            <strong>
+                Period: 2021–2025
+            </strong>
+
+        </div>
+
+
+        <div class="source-card">
+
+            <h3>
+                World Bank
+            </h3>
+
+            <p>
+                GDP per capita, Logistics Performance Index
+                and political-stability indicators.
+            </p>
+
+            <strong>
+                Latest available observations used
+            </strong>
+
+        </div>
+
+
+        <div class="source-card">
+
+            <h3>
+                Tariff Data
+            </h3>
+
+            <p>
+                Product-specific applied tariff rates for
+                Sri Lankan exports of HS 940360 furniture.
+            </p>
+
+            <strong>
+                Lower tariff = better accessibility
+            </strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- AI MODEL -->
+
+<section class="method-section">
+
+    <div class="method-section-heading">
+
+        <p class="eyebrow">
+            MACHINE LEARNING
+        </p>
+
+        <h2>
+            Linear Regression Forecasting
+        </h2>
+
+    </div>
+
+
+    <div class="method-two-column">
+
+        <div class="formula-card">
+
+            <h3>
+                Prediction Formula
+            </h3>
+
+            <div class="formula">
+
+                ŷ =
+                β₀ +
+                β₁x₁ +
+                β₂x₂ +
+                β₃x₃
+
+            </div>
+
+            <p>
+                The regression coefficients are learned
+                automatically from historical observations.
+            </p>
+
+        </div>
+
+
+        <div class="explanation-card">
+
+            <h3>
+                Model Inputs
+            </h3>
+
+            <ul>
+
+                <li>
+                    Previous-year import demand
+                </li>
+
+                <li>
+                    Current import demand
+                </li>
+
+                <li>
+                    Historical growth percentage
+                </li>
+
+            </ul>
+
+            <p>
+                The target value is the next year's
+                import demand.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- LOG TRANSFORMATION -->
+
+<section class="method-section light-section">
+
+    <div class="method-section-heading">
+
+        <p class="eyebrow">
+            DATA PREPROCESSING
+        </p>
+
+        <h2>
+            Logarithmic Transformation
+        </h2>
+
+    </div>
+
+
+    <div class="formula-card wide-card">
+
+        <div class="formula">
+            x′ = ln(1 + x)
+        </div>
+
+        <p>
+            International trade values vary from relatively
+            small markets to markets worth billions of dollars.
+            Log transformation reduces the influence of
+            extremely large observations during model training.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- MODEL EVALUATION -->
+
+<section class="method-section">
+
+    <div class="method-section-heading">
+
+        <p class="eyebrow">
+            MODEL EVALUATION
+        </p>
+
+        <h2>
+            Prediction Performance
+        </h2>
+
+    </div>
+
+
+    <div class="metric-grid">
+
+        <div class="metric-card">
+
+            <span>
+                R²
+            </span>
+
+            <strong>
+                0.9713
+            </strong>
+
+            <p>
+                Measures how much variation in the
+                held-out observations is explained
+                by the model.
+            </p>
+
+        </div>
+
+
+        <div class="metric-card">
+
+            <span>
+                MAE
+            </span>
+
+            <strong>
+                $45.24M
+            </strong>
+
+            <p>
+                Mean Absolute Error represents the
+                average absolute difference between
+                actual and predicted values.
+            </p>
+
+        </div>
+
+
+        <div class="metric-card">
+
+            <span>
+                RMSE
+            </span>
+
+            <strong>
+                $128.52M
+            </strong>
+
+            <p>
+                Root Mean Squared Error gives greater
+                emphasis to larger prediction errors.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- WSM -->
+
+<section class="method-section dark-method-section">
+
+    <div class="method-section-heading">
+
+        <p class="eyebrow">
+            DECISION MODEL
+        </p>
+
+        <h2>
+            Weighted Sum Model
+        </h2>
+
+    </div>
+
+
+    <div class="method-two-column">
+
+        <div class="formula-card dark-formula">
+
+            <h3>
+                Final Ranking Formula
+            </h3>
+
+            <div class="formula">
+                Sᵢ = Σ wⱼ rᵢⱼ
+            </div>
+
+            <p>
+                Each normalized market indicator is multiplied
+                by its importance weight. The weighted values
+                are then summed to create the market score.
+            </p>
+
+        </div>
+
+
+        <div class="explanation-card dark-explanation">
+
+            <h3>
+                Six Ranking Criteria
+            </h3>
+
+            <ul>
+
+                <li>
+                    AI-predicted demand
+                </li>
+
+                <li>
+                    AI-predicted growth
+                </li>
+
+                <li>
+                    GDP per capita
+                </li>
+
+                <li>
+                    Logistics performance
+                </li>
+
+                <li>
+                    Political stability
+                </li>
+
+                <li>
+                    Applied tariff
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- NORMALISATION -->
+
+<section class="method-section">
+
+    <div class="method-section-heading">
+
+        <p class="eyebrow">
+            NORMALISATION
+        </p>
+
+        <h2>
+            Making Different Indicators Comparable
+        </h2>
+
+    </div>
+
+
+    <div class="method-two-column">
+
+        <div class="formula-card">
+
+            <h3>
+                Benefit Criteria
+            </h3>
+
+            <p>
+                Higher values are preferred.
+            </p>
+
+            <div class="formula small-formula">
+
+                r =
+                (x − min)
+                /
+                (max − min)
+
+            </div>
+
+            <p>
+                Used for demand, growth, GDP,
+                logistics and political stability.
+            </p>
+
+        </div>
+
+
+        <div class="formula-card">
+
+            <h3>
+                Cost Criteria
+            </h3>
+
+            <p>
+                Lower values are preferred.
+            </p>
+
+            <div class="formula small-formula">
+
+                r =
+                (max − x)
+                /
+                (max − min)
+
+            </div>
+
+            <p>
+                Used for applied tariff.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- LIMITATIONS -->
+
+<section class="method-section light-section">
+
+    <div class="method-section-heading">
+
+        <p class="eyebrow">
+            PROTOTYPE LIMITATIONS
+        </p>
+
+        <h2>
+            Interpretation of Results
+        </h2>
+
+    </div>
+
+
+    <div class="limitations-box">
+
+        <p>
+            MarketAI is a decision-support prototype rather
+            than a guarantee of future commercial performance.
+            Machine-learning forecasts are estimates based on
+            historical relationships.
+        </p>
+
+        <p>
+            Different supporting indicators may use different
+            latest available years because datasets such as the
+            Logistics Performance Index are not published annually.
+        </p>
+
+        <p>
+            The current final WSM ranking is restricted to markets
+            for which suitable product-specific tariff information
+            was available.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<footer class="site-footer">
+
+    <div>
+
+        <strong>
+            MarketAI
+        </strong>
+
+        <p>
+            AI-assisted international market
+            decision support for Sri Lankan SMEs.
+        </p>
+
+    </div>
+
+    <div class="footer-note">
+        Final Year Project Prototype
+    </div>
+
+</footer>
+
+
+</body>
+</html>

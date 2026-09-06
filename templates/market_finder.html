@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Market Finder | MarketAI
+    </title>
+
+    <link rel="stylesheet"
+          href="/static/style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- NAVIGATION -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        Market<span>AI</span>
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/market-finder"
+           class="active">
+            Market Finder
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- PAGE HEADER -->
+
+<section class="finder-header">
+
+    <p class="eyebrow">
+        AI-ASSISTED MARKET INTELLIGENCE
+    </p>
+
+    <h1>
+        Find your best export market
+    </h1>
+
+    <p>
+        Enter your business information and adjust
+        the importance of each market criterion.
+    </p>
+
+</section>
+
+
+
+<!-- ERROR MESSAGE -->
+
+{% if error %}
+
+<div class="error-message">
+
+    {{ error }}
+
+</div>
+
+{% endif %}
+
+
+
+<!-- MARKET FINDER FORM -->
+
+<section class="finder-container">
+
+<form
+    action="/results"
+    method="post"
+    class="finder-form"
+>
+
+
+    <!-- BUSINESS INFORMATION -->
+
+    <div class="form-section">
+
+        <h2>
+            Business Information
+        </h2>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label>
+                    Company Name
+                </label>
+
+                <input
+                    type="text"
+                    name="company_name"
+                    placeholder="Example: Lanka Furniture"
+                    required
+                >
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Product Category
+                </label>
+             <select
+                     name="hs_code"
+                     id="productSelect"
+                      required >   
+
+                <option value="940360">
+                         Wooden Furniture — HS 940360
+                </option>
+
+                 <option value="2101">
+                         Tea / Coffee Extracts & Preparations — HS 2101
+                </option>
+
+                <option value="420310">
+                        Leather Apparel — HS 420310
+                 </option>
+
+                <option value="71">
+                       Jewellery & Precious Materials — HS 71
+                </option>
+
+    </select>
+
+                
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CRITERIA -->
+
+    <div class="form-section">
+
+        <h2>
+            Market Priorities
+        </h2>
+
+        <p class="section-description">
+
+            Assign a higher weight to factors that
+            matter more to your business.
+
+        </p>
+
+
+
+        <div class="weight-grid">
+
+
+            <div class="weight-card">
+
+                <label>
+                    Predicted Demand
+                </label>
+
+                <span>
+                    AI forecast
+                </span>
+
+                <input
+                    type="number"
+                    name="demand_weight"
+                    value="30"
+                    min="0"
+                    max="100"
+                    required
+                >
+
+            </div>
+
+
+
+            <div class="weight-card">
+
+                <label>
+                    Predicted Growth
+                </label>
+
+                <span>
+                    AI forecast
+                </span>
+
+                <input
+                    type="number"
+                    name="growth_weight"
+                    value="20"
+                    min="0"
+                    max="100"
+                    required
+                >
+
+            </div>
+
+
+
+            <div class="weight-card">
+
+                <label>
+                    GDP Per Capita
+                </label>
+
+                <span>
+                    Economic capacity
+                </span>
+
+                <input
+                    type="number"
+                    name="gdp_weight"
+                    value="10"
+                    min="0"
+                    max="100"
+                    required
+                >
+
+            </div>
+
+
+
+            <div class="weight-card">
+
+                <label>
+                    Logistics
+                </label>
+
+                <span>
+                    World Bank LPI
+                </span>
+
+                <input
+                    type="number"
+                    name="logistics_weight"
+                    value="15"
+                    min="0"
+                    max="100"
+                    required
+                >
+
+            </div>
+
+
+
+            <div class="weight-card">
+
+                <label>
+                    Political Stability
+                </label>
+
+                <span>
+                    Governance indicator
+                </span>
+
+                <input
+                    type="number"
+                    name="political_weight"
+                    value="10"
+                    min="0"
+                    max="100"
+                    required
+                >
+
+            </div>
+
+
+
+            <div class="weight-card">
+
+                <label>
+                    Tariff
+                </label>
+
+                <span>
+                    Lower is preferred
+                </span>
+
+                <input
+                    type="number"
+                    name="tariff_weight"
+                    value="15"
+                    min="0"
+                    max="100"
+                    required
+                >
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <button
+        type="submit"
+        class="analyse-button"
+    >
+
+        Analyse Markets →
+
+    </button>
+
+
+</form>
+
+</section>
+
+
+
+<div class="data-note">
+
+    AI forecasts are generated from historical
+    UN Comtrade furniture import observations.
+    Supporting indicators use the latest
+    available World Bank and tariff data.
+
+</div>
+
+
+</body>
+
+</html>

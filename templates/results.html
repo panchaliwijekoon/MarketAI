@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Results | MarketAI
+    </title>
+
+    <link rel="stylesheet"
+          href="/static/style.css">
+
+</head>
+
+
+<body>
+
+
+<nav class="navbar">
+
+    <div class="logo">
+        Market<span>AI</span>
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/market-finder">
+            Market Finder
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<section class="results-header">
+
+    <p class="eyebrow">
+        MARKET RECOMMENDATION
+    </p>
+
+    <h1>
+        Recommended Export Markets
+    </h1>
+
+    <p>
+
+        Results for
+
+        <strong>
+            {{ company_name }}
+        </strong>
+
+        exporting
+
+        <strong>
+            {{ product_name }}
+        </strong>
+
+    </p>
+
+</section>
+
+
+
+<section class="results-container">
+
+
+{% for market in rankings %}
+
+
+<div class="
+    market-card
+    {% if market.rank == 1 %}
+        top-market
+    {% endif %}">
+
+
+    <!-- RANK -->
+
+    <div class="rank-badge">
+
+        #{{ market.rank }}
+
+    </div>
+
+
+
+    <!-- COUNTRY -->
+
+    <div class="market-title">
+
+        <div>
+
+            {% if market.rank == 1 %}
+
+                <span class="recommend-label">
+                    TOP RECOMMENDATION
+                </span>
+
+            {% endif %}
+
+
+            <h2>
+                {{ market.country }}
+            </h2>
+
+
+            <p>
+                {{ market.country_code }}
+            </p>
+
+        </div>
+
+
+
+        <div class="score-box">
+
+            <span>
+                Suitability Score
+            </span>
+
+            <strong>
+                {{ market.market_score }}
+            </strong>
+
+            <small>
+                / 100
+            </small>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SCORE BAR -->
+
+    <div class="score-track">
+
+    <div
+     class="score-fill"
+     data-score="{{ market.market_score }}"></div>
+
+    </div>
+
+
+
+    <!-- MARKET INDICATORS -->
+
+    <div class="indicator-grid">
+
+
+        <div class="indicator">
+
+            <span>
+                AI Predicted Demand
+            </span>
+
+            
+<strong>
+    {% if market.predicted_demand_2026 >= 1000000000 %}
+
+        ${{ "%.2f"|format(
+            market.predicted_demand_2026 / 1000000000
+        ) }}B
+
+    {% elif market.predicted_demand_2026 >= 1000000 %}
+
+        ${{ "%.2f"|format(
+            market.predicted_demand_2026 / 1000000
+        ) }}M
+
+    {% else %}
+
+        ${{ "{:,.0f}".format(
+            market.predicted_demand_2026
+        ) }}
+
+    {% endif %}
+</strong>
+            
+
+        </div>
+
+
+
+        <div class="indicator">
+
+            <span>
+                Predicted Growth
+            </span>
+
+<strong>
+    {{ "%.2f"|format(
+        market.predicted_growth_2026
+    ) }}%
+</strong>
+
+        </div>
+
+
+
+        <div class="indicator">
+
+            <span>
+                GDP Per Capita
+            </span>
+
+            <strong>
+
+                ${{ "{:,.0f}".format(
+                    market.gdp_per_capita) }}
+
+            </strong>
+
+        </div>
+
+
+
+        <div class="indicator">
+
+            <span>
+                Logistics LPI
+            </span>
+
+            <strong>
+                {{ market.logistics_lpi }}
+                / 5
+            </strong>
+
+        </div>
+
+
+
+        <div class="indicator">
+
+            <span>
+                Political Stability
+            </span>
+
+<strong>
+    {{ "%.2f"|format(
+        market.political_stability
+    ) }} / 100
+</strong>
+
+        </div>
+
+
+
+        <div class="indicator">
+
+        <span>
+             Applied Tariff
+        </span>
+
+        <strong>
+
+            {% if market.applied_tariff is defined
+                 and market.applied_tariff is not none
+                 and market.applied_tariff == market.applied_tariff %}
+
+                {{ "%.2f"|format(
+                    market.applied_tariff
+            ) }}%
+
+            {% else %}
+
+                Not available
+
+            {% endif %}
+
+        </strong>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="market-explanation">
+
+        <strong>
+            Strongest scoring factor:
+        </strong>
+
+        {{ market.strongest_factor
+            | replace("_", " ")
+            | title
+        }}
+
+    </div>
+
+
+</div>
+
+
+{% endfor %}
+
+<!--HEATMAP-->
+</section>
+<section class="results-heatmap-section">
+
+    <div class="heatmap-heading">
+
+        <p class="eyebrow">
+            EXPLAINABLE MARKET RANKING </p>
+
+        <h2>WSM Contribution Heatmap </h2>
+
+        <p>
+            Stronger cells indicate factors that contributed
+            more to each market's final suitability score.
+        </p>
+
+    </div>
+
+
+    <div class="heatmap-container">
+
+        <table class="analysis-heatmap">
+
+            <thead>
+
+                <tr>
+
+                    <th>Market </th>
+
+                    <th> AI Demand </th>
+
+                    <th> Growth </th>
+
+                    <th>GDP </th>
+
+                    <th> Logistics </th>
+
+                    <th> Stability </th>
+
+                    <th> Tariff </th>
+
+                    <th> Final Score </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for market in rankings %}
+
+                <tr>
+
+                    <td class="heatmap-market">
+
+                        <strong>
+                            #{{ market.rank }}
+                            {{ market.country }}
+                        </strong>
+
+                        <small>
+                            {{ market.country_code }}
+                        </small>
+
+                    </td>
+
+
+                    <!-- DEMAND -->
+
+                    <td
+                        class="heat-cell"
+                        data-value="
+                            {{ market.predicted_demand_2026_contribution | default(0) }}
+                        "
+                    >
+
+                        {{
+                            "%.2f"|format(
+                                market.predicted_demand_2026_contribution
+                                | default(0)
+                            )
+                        }}
+
+                    </td>
+
+
+                    <!-- GROWTH -->
+
+                    <td
+                        class="heat-cell"
+                        data-value="
+                            {{ market.predicted_growth_2026_contribution | default(0) }}
+                        "
+                    >
+
+                        {{
+                            "%.2f"|format(
+                                market.predicted_growth_2026_contribution
+                                | default(0)
+                            )
+                        }}
+
+                    </td>
+
+
+                    <!-- GDP -->
+
+                    <td
+                        class="heat-cell"
+                        data-value="
+                            {{ market.gdp_per_capita_contribution | default(0) }}
+                        "
+                    >
+
+                        {{
+                            "%.2f"|format(
+                                market.gdp_per_capita_contribution
+                                | default(0)
+                            )
+                        }}
+
+                    </td>
+
+
+                    <!-- LOGISTICS -->
+
+                    <td
+                        class="heat-cell"
+                        data-value="
+                            {{ market.logistics_lpi_contribution | default(0) }}
+                        "
+                    >
+
+                        {{
+                            "%.2f"|format(
+                                market.logistics_lpi_contribution
+                                | default(0)
+                            )
+                        }}
+
+                    </td>
+
+
+                    <!-- POLITICAL STABILITY -->
+
+                    <td
+                        class="heat-cell"
+                        data-value="
+                            {{ market.political_stability_contribution | default(0) }}
+                        "
+                    >
+
+                        {{
+                            "%.2f"|format(
+                                market.political_stability_contribution
+                                | default(0)
+                            )
+                        }}
+
+                    </td>
+
+
+                    <!-- TARIFF -->
+
+                    {% if market.applied_tariff_contribution is defined %}
+
+                    <td
+                        class="heat-cell"
+                        data-value="
+                            {{ market.applied_tariff_contribution }}
+                        "
+                    >
+
+                        {{
+                            "%.2f"|format(
+                                market.applied_tariff_contribution
+                            )
+                        }}
+
+                    </td>
+
+                    {% else %}
+
+                    <td class="heat-cell heat-na">
+
+                        N/A
+
+                    </td>
+
+                    {% endif %}
+
+
+                    <!-- FINAL SCORE -->
+
+                    <td class="heat-score">
+
+                        {{ "%.2f"|format(
+                            market.market_score
+                        ) }}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="heatmap-note">
+
+        Cell values represent weighted contributions
+        toward the final suitability score.
+
+        A darker cell indicates a stronger contribution.
+
+    </div>
+
+</section>
+
+<div class="results-disclaimer">
+
+    MarketAI is am AI-assisted decision-support prototype.
+
+</div>
+
+<script>
+
+    document.querySelectorAll(".score-fill").forEach(function(bar) {
+
+        const score =
+            parseFloat(bar.dataset.score);
+
+        bar.style.width = score + "%";
+
+    });
+
+</script>
+
+<!--HEATMAP STYLING-->
+<script>
+
+    const heatCells =
+        document.querySelectorAll(
+            ".heat-cell[data-value]"
+        );
+
+
+    let maximumContribution = 0;
+
+
+    heatCells.forEach(
+        function(cell) {
+
+            const value = Number(cell.dataset.value );
+
+
+            if (value > maximumContribution) {
+
+                maximumContribution = value;
+
+            }
+
+        }
+    );
+
+
+    heatCells.forEach(
+        function(cell) {
+
+            const value = Number(cell.dataset.value);
+
+
+            let strength = 0;
+
+
+            if (maximumContribution > 0) {
+
+                strength =
+                    value
+                    /
+                    maximumContribution;
+
+            }
+
+
+            /*
+                Opacity ranges roughly
+                from 0.12 to 0.90
+            */
+
+            const opacity = 0.12 + ( strength* 0.78 );
+
+
+            cell.style.background =
+                "rgba(17, 156, 136, "
+                +
+                opacity
+                +
+                ")";
+
+
+            /*
+                Make text white on
+                stronger cells.
+            */
+
+            if (strength > 0.6) {
+
+                cell.style.color = "white";
+
+            }
+
+        }
+    );
+
+</script>
+</body>
+
+</html>

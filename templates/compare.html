@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Compare Markets | MarketAI
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/chart.js">
+    </script>
+
+</head>
+
+
+<body>
+
+
+<nav class="navbar">
+
+    <div class="logo">
+        Market<span>AI</span>
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/"> Home </a>
+
+        <a href="/dashboard"> Dashboard </a>
+
+        <a href="/market-finder"> Market Finder</a>
+
+        <a href="/compare" class="active"> Compare </a>
+
+        <a href="/profile"> Business Profile </a>
+
+    </div>
+
+</nav>
+
+
+
+<section class="compare-header">
+
+    <p class="eyebrow"> MARKET COMPARISON </p>
+
+    <h1> Compare Export Markets </h1>
+
+    <p>
+        Select up to three markets and compare
+        their AI forecasts and market indicators.
+    </p>
+
+</section>
+
+
+
+<section class="compare-controls">
+
+    <div>
+
+        <label> Market 1 </label>
+
+        <select id="market1"> </select>
+
+    </div>
+
+
+    <div>
+
+        <label> Market 2 </label>
+
+        <select id="market2"> </select>
+
+    </div>
+
+
+    <div>
+
+        <label> Market 3 </label>
+
+        <select id="market3"> </select>
+
+    </div>
+
+
+    <button onclick="compareMarkets()" class="analyse-button" >
+        Compare Markets
+    </button>
+
+</section>
+
+
+
+<section
+    id="comparisonResults"
+    class="comparison-results">
+</section>
+
+
+
+<section class="compare-chart-card">
+
+    <h2> Market Indicator Comparison </h2>
+
+    <div class="chart-wrapper">
+
+        <canvas id="comparisonChart"></canvas>
+
+    </div>
+
+</section>
+
+
+
+<script
+    id="market-data"
+    type="application/json">
+    {{ markets | default([]) | tojson }}
+</script>
+
+
+
+<script>
+
+const markets = JSON.parse(
+    document
+        .getElementById("market-data")
+        .textContent);
+
+
+let comparisonChart = null;
+
+
+// -------------------------------------
+// POPULATE DROPDOWNS
+// -------------------------------------
+
+const dropdowns = [
+
+    document.getElementById( "market1" ),
+
+    document.getElementById( "market2" ),
+
+    document.getElementById(  "market3" )
+
+];
+
+
+dropdowns.forEach(
+    function(dropdown) {
+
+        markets.forEach(
+            function(market) {
+
+                const option =
+                    document.createElement("option");
+
+                option.value = market.country_code;
+
+                option.textContent = market.country;
+
+                dropdown.appendChild( option);
+
+            }
+        );
+
+    }
+);
+
+
+// Default selections
+
+if (markets.length >= 3) {
+
+    dropdowns[0].value = markets[0].country_code;
+
+    dropdowns[1].value = markets[1].country_code;
+
+    dropdowns[2].value = markets[2].country_code;
+
+}
+
+
+
+// -------------------------------------
+// FORMAT CURRENCY
+// -------------------------------------
+
+function formatDemand(value) {
+
+    return (
+        "$"
+        +
+        (
+            Number(value)
+            / 1000000000
+        ).toFixed(2)
+        +
+        "B"
+    );
+
+}
+
+
+
+// -------------------------------------
+// COMPARE
+// -------------------------------------
+
+function compareMarkets() {
+
+    const selectedCodes =
+        dropdowns.map(
+            dropdown => dropdown.value );
+
+
+    const selectedMarkets =
+        markets.filter(
+            market =>  selectedCodes.includes(
+                    market.country_code )  );
+
+
+    displayCards( selectedMarkets);
+
+
+    drawChart( selectedMarkets );
+
+}
+
+
+
+// -------------------------------------
+// CARDS
+// -------------------------------------
+
+function displayCards(selectedMarkets) {
+
+    const container = document.getElementById( "comparisonResults" );
+
+
+    container.innerHTML = "";
+
+
+    selectedMarkets.forEach(
+        function(market) {
+
+            const card = document.createElement("div" );
+
+
+            card.className ="comparison-card";
+
+
+            card.innerHTML = `
+
+                <h2> ${market.country} </h2>
+
+                <span> ${market.country_code} </span>
+
+
+                <div class="compare-indicator">
+
+                    <small> AI Predicted Demand </small>
+
+                    <strong>
+                        ${formatDemand(
+                            market.predicted_demand_2026
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="compare-indicator">
+
+                    <small> Predicted Growth </small>
+
+                    <strong>
+                        ${Number(
+                            market.predicted_growth_2026
+                        ).toFixed(2)}%
+                    </strong>
+
+                </div>
+
+
+                <div class="compare-indicator">
+
+                    <small> GDP Per Capita </small>
+
+                    <strong>
+
+                        $${Number(
+                            market.gdp_per_capita
+                        ).toLocaleString(
+                            undefined,
+                            {
+                                maximumFractionDigits: 0
+                            }
+                        )}
+
+                    </strong>
+
+                </div>
+
+
+                <div class="compare-indicator">
+
+                    <small> Logistics LPI </small>
+
+                    <strong>
+                        ${market.logistics_lpi} / 5
+                    </strong>
+
+                </div>
+
+
+                <div class="compare-indicator">
+
+                    <small>Political Stability </small>
+
+                    <strong>
+                        ${Number(
+                            market.political_stability
+                        ).toFixed(1)}
+                    </strong>
+
+                </div>
+
+
+                <div class="compare-indicator">
+
+                    <small>Applied Tariff</small>
+
+                    <strong>
+                        ${market.applied_tariff}%
+                    </strong>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(card);
+
+        }
+    );
+
+}
+
+
+
+// -------------------------------------
+// CHART
+// -------------------------------------
+
+function drawChart(selectedMarkets) {
+
+    if (comparisonChart) {
+
+        comparisonChart.destroy();
+
+    }
+
+
+    /*
+        GDP and demand are on very different
+        scales, so for this visual comparison
+        we use selected indicators whose ranges
+        are easier to interpret together.
+    */
+
+
+    comparisonChart =
+        new Chart(
+            document.getElementById("comparisonChart" ),
+            {
+
+                type: "bar",
+
+                data: {
+
+                    labels:
+                        selectedMarkets.map(market =>market.country),
+
+                    datasets: [
+
+                        {
+
+                            label: "Logistics LPI",
+
+                            data:selectedMarkets.map(
+                                    market =>
+                                        Number(
+                                            market.logistics_lpi
+                                        )
+                                )
+
+                        },
+
+                        {
+
+                            label: "Tariff (%)",
+
+                            data:selectedMarkets.map(
+                                    market =>
+                                        Number(
+                                            market.applied_tariff
+                                        )
+                                )
+
+                        }
+
+                    ]
+
+                },
+
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false
+
+                }
+
+            }
+        );
+
+}
+
+
+compareMarkets();
+
+</script>
+
+
+</body>
+</html>
